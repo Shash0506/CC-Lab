@@ -1,1 +1,849 @@
 # CC-Lab
+# CC-Lab
+Part 1: Common Salesforce setup for all applications
+
+Use these same starting steps for every app.
+
+Step 1: Create Salesforce account
+
+Use Salesforce Developer Edition.
+
+Step 2: Open Setup
+
+After login:
+
+Click gear icon
+Click Setup
+Step 3: Create a custom app
+In Setup, search App Manager
+Click New Lightning App
+Enter app name
+Add logo if needed
+Add required tabs
+Save
+Step 4: Create custom objects
+
+For each project:
+
+Go to Object Manager
+Click Create > Custom Object
+Enter object name
+Save
+Step 5: Create fields
+
+Inside each object:
+
+Go to Fields & Relationships
+Click New
+Choose field type:
+Text
+Number
+Date
+Date/Time
+Currency
+Checkbox
+Picklist
+Lookup Relationship
+Master-Detail Relationship
+Formula
+URL
+Save
+Step 6: Create tabs
+Search Tabs
+Create custom tab for each object
+Step 7: Add objects to app
+Go to App Manager
+Edit the app
+Add created tabs
+Step 8: Page layout
+Open object
+Go to Page Layouts
+Arrange fields properly
+Step 9: Create list views and reports
+Create list views like:
+All records
+Active records
+Pending records
+Use Reports for summary
+Step 10: Test the application
+Add sample data
+Check create, edit, delete, relationships, formulas, reports
+Part 2: Step-by-step for the 10 questions you typed
+1. Student details application
+Goal
+
+Store:
+
+Name
+USN
+Semester
+Section
+CGPA
+Steps
+
+Object: Student
+
+Fields:
+
+Student Name – Text
+USN – Text
+Semester – Picklist or Number
+Section – Picklist
+CGPA – Number(3,2)
+
+Process
+
+Create custom object Student
+Add above fields
+Create tab for Student
+Add tab to app
+Create page layout
+Add sample student records
+Create list view: “All Students”
+Create report by semester/section/CGPA
+2. Online shopping cart
+Goal
+
+Add items to cart and remove items
+
+Objects
+Product
+Cart
+Cart Item
+Fields
+
+Product
+
+Product Name – Text
+Price – Currency
+Quantity Available – Number
+Description – Text Area
+
+Cart
+
+Cart Name – Auto Number or Text
+Customer Name – Text
+Total Amount – Formula/Currency
+
+Cart Item
+
+Cart – Master-Detail to Cart
+Product – Lookup to Product
+Quantity – Number
+Price – Currency
+Amount – Formula (Quantity * Price)
+Process
+Create Product object
+Create Cart object
+Create Cart Item object
+Add relationships
+Add formula field for amount
+Add related list of Cart Items inside Cart
+Add sample products
+Create one cart record
+Add cart items
+To delete item, remove corresponding Cart Item record
+Optional: use Flow to update stock when item added
+3. Faculty details and tax calculator
+Goal
+
+Store faculty details and calculate income tax
+
+Object
+
+Faculty
+
+Fields
+Faculty ID – Text
+Faculty Name – Text
+Salary – Currency
+Tax Percentage – Formula or Number
+Income Tax – Formula(Currency)
+Formula idea
+
+You can keep simple slabs for college project.
+
+Example:
+
+If salary < 250000 → 0
+250000 to 500000 → 5%
+500000 to 1000000 → 20%
+Above 1000000 → 30%
+Process
+Create Faculty object
+Add Faculty ID, Name, Salary
+Create formula field Income Tax
+Example formula:
+IF(Salary__c < 250000, 0,
+IF(Salary__c <= 500000, Salary__c * 0.05,
+IF(Salary__c <= 1000000, Salary__c * 0.20,
+Salary__c * 0.30)))
+Create tab
+Add records
+Create report on faculty salary and tax
+4. Flight booking application
+Goal
+
+Book flight from source to destination and store status, departure time
+
+Object
+
+Flight Booking
+
+Fields
+Passenger Name – Text
+Source – Text/Picklist
+Destination – Text/Picklist
+Flight Number – Text
+Departure Time – Date/Time
+Flight Status – Picklist
+Seat Number – Text
+Booking Date – Date
+Process
+Create object Flight Booking
+Add all fields
+Use picklist for Flight Status:
+Scheduled
+Delayed
+Cancelled
+Departed
+Create tab
+Add sample booking records
+Create list views:
+Scheduled Flights
+Delayed Flights
+Create reports by destination/status
+5. Collaborative learning environment using Google Apps
+Goal
+
+Use:
+
+Google Drive for e-books
+Google Docs for articles
+Google Slides for presentations
+Object
+
+Learning Topic
+
+Fields
+Topic Name – Text
+Description – Text Area
+E-book Link – URL
+Article Link – URL
+Presentation Link – URL
+Process
+Create object Learning Topic
+Add fields
+Upload ebook to Google Drive
+Create article in Google Docs
+Create presentation in Google Slides
+Copy shareable links
+Paste links in URL fields
+Create tab
+Add records for different learning topics
+Test each link
+6. Department events registration app
+Goal
+
+Parent-child relationship:
+
+Parent: Event details
+Child: Student registration details
+Objects
+Department Event (Parent)
+Student Registration (Child)
+Fields
+
+Department Event
+
+Event Name – Text
+Date/Time – Date/Time
+Venue – Text
+
+Student Registration
+
+Student Name – Text
+Branch – Text/Picklist
+Event – Master-Detail to Department Event
+Date/Time – Formula or inherited if needed
+Venue – Formula or text
+Process
+Create Department Event
+Add fields Event Name, Date/Time, Venue
+Create Student Registration
+Create Master-Detail relationship to Department Event
+Add Student Name and Branch
+Show child related list in parent layout
+Create event record
+Add multiple student registrations under one event
+Create report: registrations per event
+7. Blood donation registration app
+Goal
+
+Parent-child relationship with age condition
+
+Objects
+Donor (Parent)
+Donation Details (Child)
+Fields
+
+Donor
+
+Donor Name – Text
+Age – Number
+Blood Group – Picklist
+
+Donation Details
+
+Donor – Master-Detail to Donor
+Hemoglobin Level – Number
+Donated Or Not – Checkbox or Picklist
+Eligibility – Formula(Text)
+Formula idea
+
+Eligible only if age > 18
+
+Example:
+
+IF(Donor__r.Age__c > 18, "Eligible", "Not Eligible")
+Process
+Create Donor
+Add Name, Age, Blood Group
+Create Donation Details
+Add Master-Detail to Donor
+Add hemoglobin and donated/not fields
+Create formula eligibility field
+Add related list to parent
+Test with donor age 17 and 20
+Create reports by blood group and donation status
+8. Attendance maintenance app
+Goal
+
+Store attendance and link to college results website
+
+Object
+
+Attendance
+
+Fields
+Student Name – Text
+USN – Text
+Semester – Number/Picklist
+Attendance Percentage – Percent/Number
+Result Website Link – URL
+Process
+Create Attendance object
+Add fields
+Add URL field for college result page
+Create tab
+Add student attendance records
+Check clickable link
+Create list view for low attendance
+Create report by semester
+9. Art gallery database app
+Goal
+
+Maintain artists, arts, inventory and provide art gallery website link
+
+Objects
+Artist
+Art
+Inventory
+Fields
+
+Artist
+
+Artist Name – Text
+Country – Text
+Style – Text
+
+Art
+
+Art Name – Text
+Artist – Lookup to Artist
+Type – Picklist
+Price – Currency
+
+Inventory
+
+Art – Lookup/Master-Detail
+Quantity – Number
+Availability – Checkbox
+Gallery Website – URL
+Process
+Create Artist
+Create Art
+Link Art to Artist
+Create Inventory
+Link Inventory to Art
+Add URL field for gallery website
+Enter sample records
+Create reports by artist/type/availability
+10. Department database app
+Goal
+
+Maintain:
+
+Staff
+Syllabus
+Activities
+Link to college website
+Objects
+Staff
+Syllabus
+Activity
+Fields
+
+Staff
+
+Staff Name – Text
+Designation – Text
+Qualification – Text
+College Website – URL
+
+Syllabus
+
+Subject Name – Text
+Semester – Number/Picklist
+Staff – Lookup to Staff
+College Website – URL
+
+Activity
+
+Activity Name – Text
+Date – Date
+Department – Text
+College Website – URL
+Process
+Create all 3 objects
+Add fields
+Add URL field in any or all objects
+Create tabs
+Add records
+Create reports:
+Staff list
+Syllabus by semester
+Activities by date
+Part 3: Step-by-step for the 10 questions in the attached image
+
+The image contains these:
+
+Super Market Inventory Control System
+Bank Loan Management System
+Blood Bank Management System
+Railway Reservation System
+Employee Payroll System
+Stocks and Share Online Trading System
+Court Case Management System
+Online Recruitment System
+Online Examination Registration
+Supply Chain Management System
+1. Super Market Inventory Control System
+Objects
+Product
+Supplier
+Stock Entry
+Fields
+
+Product
+
+Product Name
+Category
+Price
+Quantity In Stock
+Expiry Date
+
+Supplier
+
+Supplier Name
+Phone
+Address
+
+Stock Entry
+
+Product
+Supplier
+Quantity Added
+Date
+Process
+Create Product, Supplier, Stock Entry objects
+Create lookup relations
+Add inventory fields
+Use reports for low stock products
+Optional: create Flow for stock update
+2. Bank Loan Management System
+Objects
+Customer
+Loan Application
+Loan Payment
+Fields
+
+Customer
+
+Customer Name
+Account Number
+Phone
+Address
+
+Loan Application
+
+Customer
+Loan Type
+Loan Amount
+Interest Rate
+Status
+Duration
+
+Loan Payment
+
+Loan Application
+Payment Date
+Amount Paid
+Balance Amount
+Process
+Create all 3 objects
+Add customer-loan relationship
+Add loan-payment relationship
+Use formula for EMI if needed
+Create report for approved/pending loans
+3. Blood Bank Management System
+Objects
+Donor
+Blood Unit
+Recipient Request
+Fields
+Donor Name
+Blood Group
+Age
+Donation Date
+Blood Unit Quantity
+Availability
+Patient Name
+Request Status
+Process
+Create Donor, Blood Unit, Recipient Request
+Link Blood Unit to Donor
+Track available blood stock
+Create report by blood group availability
+4. Railway Reservation System
+Objects
+Train
+Passenger
+Reservation
+Fields
+
+Train
+
+Train Number
+Train Name
+Source
+Destination
+Departure Time
+
+Passenger
+
+Passenger Name
+Age
+Gender
+
+Reservation
+
+Train
+Passenger
+Seat Number
+Travel Date
+Reservation Status
+Process
+Create Train, Passenger, Reservation
+Link passenger and train through Reservation
+Add status:
+Confirmed
+Waiting
+Cancelled
+Create reports by date and train
+5. Employee Payroll System
+Objects
+Employee
+Payroll
+Fields
+
+Employee
+
+Employee ID
+Employee Name
+Department
+Basic Salary
+
+Payroll
+
+Employee
+Month
+Basic Salary
+Allowances
+Deductions
+Net Salary
+Formula
+
+Net Salary = Basic Salary + Allowances - Deductions
+
+Process
+Create Employee and Payroll
+Link Payroll to Employee
+Add formula field for Net Salary
+Create monthly payroll reports
+6. Stocks and Share Online Trading System
+Objects
+Investor
+Stock
+Trade
+Fields
+
+Investor
+
+Investor Name
+Account ID
+
+Stock
+
+Company Name
+Symbol
+Current Price
+
+Trade
+
+Investor
+Stock
+Quantity
+Trade Type (Buy/Sell)
+Trade Date
+Total Value
+Process
+Create Investor, Stock, Trade
+Link Trade with Investor and Stock
+Add formula:
+Total Value = Quantity * Current Price
+Create reports on buy/sell history
+7. Court Case Management System
+Objects
+Case
+Client
+Hearing
+Fields
+
+Case
+
+Case Number
+Case Type
+Filing Date
+Status
+
+Client
+
+Client Name
+Contact
+Address
+
+Hearing
+
+Case
+Hearing Date
+Judge Name
+Remarks
+Process
+Create objects
+Link hearing to case
+Link client to case
+Track status:
+Open
+Closed
+Pending
+Create reports on upcoming hearings
+8. Online Recruitment System
+Objects
+Job Opening
+Applicant
+Interview
+Fields
+
+Job Opening
+
+Job Title
+Department
+Experience Required
+Status
+
+Applicant
+
+Applicant Name
+Email
+Qualification
+Resume Link
+
+Interview
+
+Applicant
+Job Opening
+Interview Date
+Result
+Process
+Create Job Opening, Applicant, Interview
+Add lookup relationships
+Add resume URL field
+Create reports by shortlisted/rejected candidates
+9. Online Examination Registration
+Objects
+Student
+Exam
+Exam Registration
+Fields
+
+Student
+
+Name
+USN
+Semester
+
+Exam
+
+Exam Name
+Subject
+Date
+
+Exam Registration
+
+Student
+Exam
+Registration Date
+Fee Status
+Process
+Create Student, Exam, Exam Registration
+Add relationships
+Track fee status
+Create report of registered students by exam
+10. Supply Chain Management System
+Objects
+Supplier
+Product
+Order
+Shipment
+Fields
+
+Supplier
+
+Supplier Name
+Contact
+
+Product
+
+Product Name
+Unit Price
+
+Order
+
+Supplier
+Product
+Quantity
+Order Date
+Status
+
+Shipment
+
+Order
+Shipment Date
+Delivery Status
+Process
+Create Supplier, Product, Order, Shipment
+Add lookup/master-detail relations
+Track status:
+Ordered
+Packed
+Shipped
+Delivered
+Create reports by supplier/status
+Part 4: How to write the answer in exam or record format
+
+For each application, you can write in this format:
+
+Title
+
+Example: Student Details Management System
+
+Aim
+
+To develop a web application using Salesforce cloud platform to store and manage student details.
+
+Objects used
+Student
+Fields used
+Name
+USN
+Semester
+Section
+CGPA
+Procedure
+Login to Salesforce Developer account.
+Go to Setup.
+Create a custom object named Student.
+Create required fields.
+Create tab for the object.
+Add tab to Lightning App.
+Create records.
+Test the application.
+Output
+
+The application stores and displays student details successfully.
+
+Result
+
+Thus, the Salesforce web application was created successfully.
+
+Part 5: Mini template you can reuse for any project
+
+Use this whenever your teacher asks for procedure.
+
+General procedure template
+Login to Salesforce Developer account.
+Open Setup.
+Create a Lightning App.
+Create required custom objects.
+Create fields for each object.
+Define relationships between objects if needed.
+Create tabs for objects.
+Add tabs to the app.
+Customize page layout.
+Enter sample records.
+Create reports and list views.
+Test the application.
+Part 6: Important Salesforce features to mention in viva
+
+You can say these keywords:
+
+Custom Objects
+Fields and Relationships
+Lookup Relationship
+Master-Detail Relationship
+Formula Fields
+Validation Rules
+Page Layouts
+Tabs
+Lightning App
+Reports
+Dashboards
+Flow Automation
+Part 7: One important note
+
+Some of these projects may need:
+
+only one object
+or multiple related objects
+
+Use:
+
+Lookup Relationship when objects are loosely connected
+Master-Detail Relationship when child must depend on parent
+
+Example:
+
+Event and Registration → Master-Detail
+Artist and Art → usually Lookup or Master-Detail
+Donor and Donation Details → Master-Detail
